@@ -1,0 +1,58 @@
+{
+  "ui_font_size": 16,
+  "buffer_font_size": null,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Catppuccin Mocha"
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+  "terminal": {
+    "detect_venv": {
+      "on": {
+        "directories": ["venv"],
+        "activate_script": "default"
+      }
+    }
+  },
+  "languages": {
+    "Python": {
+      "language_servers": ["pyright", "ruff"],
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_actions": {
+            "source.organizeImports.ruff": true,
+            "source.fixAll.ruff": true
+          }
+        },
+        {
+          "language_server": {
+            "name": "ruff"
+          }
+        }
+      ]
+    },
+    "Markdown": {
+      "format_on_save": "on",
+      "remove_trailing_whitespace_on_save": true
+    }
+  },
+  "lsp": {
+    "pyright": {
+      "settings": {
+        "python.analysis": {
+          "diagnosticMode": "workspace",
+          "typeCheckingMode": "strict"
+        },
+        "python": {
+          "pythonPath": "venv/bin/python"
+        }
+      }
+    }
+  }
+}
