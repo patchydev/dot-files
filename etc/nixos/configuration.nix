@@ -104,6 +104,7 @@ in
 	fastfetch
 	prismlauncher
 	vscodium
+	obsidian
 	lunar-client
 	vesktop
 	aurpkgs.element-desktop
