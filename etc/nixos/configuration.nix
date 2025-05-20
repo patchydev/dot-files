@@ -1,11 +1,10 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 let
+  nixvimFlake = builtins.getFlake "github:patchydev/nixvim";
+in
+let
   aurpkgs = import (pkgs.fetchFromGitHub {
-    owner = "StellarWitch7";
+    owner = "aurakle";
     repo = "nurpkgs";
     rev = "99b25246a4aac105060c2e29b2d798a927c0841a";
     hash = "sha256-5dCnMkp3G4Uol2IKWvlB8vc2YAA09siSRzBAWW+Xkfk=";
@@ -59,11 +58,11 @@ in
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
-    variant = "dvorak";
+    #variant = "qwerty";
   };
 
   # Configure console keymap
-  console.keyMap = "dvorak";
+  console.keyMap = "us";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -95,6 +94,15 @@ in
    virtualisation.virtualbox.host.enable = true;
    users.extraGroups.vboxusers.members = [ "patchy" ];
 
+  programs.virt-manager.enable = true;
+
+  users.groups.libvirtd.members = ["patchy"];
+
+  virtualisation.libvirtd.enable = true;
+
+  virtualisation.spiceUSBRedirection.enable = true;
+
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.patchy = {
     isNormalUser = true;
@@ -106,10 +114,31 @@ in
 	spotify
 	fastfetch
 	prismlauncher
+	fzf
+  proton-pass
+  protonvpn-gui
+  protonvpn-cli
+	btop
+  protonmail-desktop
+	appimage-run
+	github-desktop
+	gay
+	blahaj
+	chromium
 	vscodium
+	badlion-client
+	lunarvim
+	lazygit
+	krita
+	openvpn
+	zed-editor
 	obsidian
+	libreoffice-qt6-fresh
+	gnome-disk-utility
+	nomacs
 	lunar-client
 	vesktop
+	jetbrains.rust-rover
 	aurpkgs.element-desktop
 	gimp
         hyfetch
@@ -122,6 +151,11 @@ in
   };
 
   services.teamviewer.enable = true;
+
+  environment.variables = {
+    XCURSOR_THEME = "capitaine-cursors";
+    XCURSOR_SIZE = "24";
+  };
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -145,6 +179,7 @@ in
 
     oh-my-zsh = {
         enable = true;
+	plugins = ["git" "copyfile" "copybuffer"];
         theme = "eastwood";
     };
   };
@@ -168,7 +203,10 @@ in
     pavucontrol
     pamixer
     dunst
+    banana-cursor
+    nixvimFlake.packages.${pkgs.system}.default
     bluez
+    capitaine-cursors
     git
     sway-contrib.grimshot
     bluez-tools
@@ -181,6 +219,19 @@ in
     noto-fonts
     noto-fonts-cjk-sans
     font-awesome  ];
+
+  nix = {
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      trusted-users = [ "root" "patchy" ];
+    };
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -210,3 +261,4 @@ in
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
+
