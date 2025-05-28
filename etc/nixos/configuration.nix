@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  nixvimFlake = builtins.getFlake "github:patchydev/nixvim";
+  nixvimFlake = builtins.getFlake "github:patchydev/nixvim?ref=main";
 in
 let
   aurpkgs = import (pkgs.fetchFromGitHub {
@@ -11,10 +11,10 @@ let
   }) { inherit pkgs; };
 in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -91,63 +91,74 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-   virtualisation.virtualbox.host.enable = true;
-   users.extraGroups.vboxusers.members = [ "patchy" ];
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "patchy" ];
 
   programs.virt-manager.enable = true;
 
-  users.groups.libvirtd.members = ["patchy"];
+  users.groups.libvirtd.members = [ "patchy" ];
 
   virtualisation.libvirtd.enable = true;
 
   virtualisation.spiceUSBRedirection.enable = true;
 
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.patchy = {
     isNormalUser = true;
     description = "Isa";
-    extraGroups = [ "networkmanager" "wheel" "audio" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "audio"
+    ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-	wl-clipboard
-	spotify
-	fastfetch
-	prismlauncher
-	fzf
-  proton-pass
-  protonvpn-gui
-  protonvpn-cli
-	btop
-  protonmail-desktop
-	appimage-run
-	github-desktop
-	gay
-	blahaj
-	chromium
-	vscodium
-	badlion-client
-	lunarvim
-	lazygit
-	krita
-	openvpn
-	zed-editor
-	obsidian
-	libreoffice-qt6-fresh
-	gnome-disk-utility
-	nomacs
-	lunar-client
-	vesktop
-	jetbrains.rust-rover
-	aurpkgs.element-desktop
-	gimp
-        hyfetch
-	mpv
+      wl-clipboard
+      spotify
+      fastfetch
+      prismlauncher
+      fzf
+      proton-pass
+      protonvpn-gui
+      protonvpn-cli
+      tmux
+      libisoburn
+      grub2
+      qemu
+      btop
+      libllvm
+      gcc
+      raylib
+      protonmail-desktop
+      zig
+      appimage-run
+      github-desktop
+      gay
+      blahaj
+      chromium
+      vscodium
+      badlion-client
+      lunarvim
+      lazygit
+      krita
+      openvpn
+      zed-editor
+      obsidian
+      libreoffice-qt6-fresh
+      gnome-disk-utility
+      nomacs
+      lunar-client
+      vesktop
+      jetbrains.rust-rover
+      aurpkgs.element-desktop
+      gimp
+      hyfetch
+      mpv
     ];
   };
 
   services.ollama = {
-	enable = true;
+    enable = true;
   };
 
   services.teamviewer.enable = true;
@@ -178,9 +189,13 @@ in
     syntaxHighlighting.enable = true;
 
     oh-my-zsh = {
-        enable = true;
-	plugins = ["git" "copyfile" "copybuffer"];
-        theme = "eastwood";
+      enable = true;
+      plugins = [
+        "git"
+        "copyfile"
+        "copybuffer"
+      ];
+      theme = "eastwood";
     };
   };
 
@@ -218,12 +233,19 @@ in
     nerdfonts
     noto-fonts
     noto-fonts-cjk-sans
-    font-awesome  ];
+    font-awesome
+  ];
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "root" "patchy" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "root"
+        "patchy"
+      ];
     };
 
     gc = {
@@ -261,4 +283,3 @@ in
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
-
